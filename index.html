@@ -375,8 +375,114 @@
   }
   .info:hover .tip, .info:focus .tip, .info.open .tip { display: block; }
 
-  .result { display: none; }
-  .result.on { display: block; }
+  .control[aria-invalid="true"] { border-color: var(--danger); }
+  .hint { color: var(--info); font-size: 13px; font-weight: 400; line-height: 1.4; margin: 0; }
+  .field-group { display: flex; flex-direction: column; gap: 8px; font-weight: 500; }
+  .seg { margin-bottom: 0; }
+  .seg button.on { background: var(--bg); border-color: var(--navy); }
+  .worked-row { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+  .worked-row .control { width: 96px; padding: 0 12px; text-align: center; }
+  .worked-row .unit { margin-bottom: 0; }
+  .partial .err { display: block; margin-top: 8px; }
+  .partial .err:empty { display: none; }
+  .partial .hint { margin-top: 10px; }
+  .title-actions { display: flex; align-items: center; gap: 4px; flex: none; }
+  .title-actions .link-btn { height: 32px; font-size: 13px; }
+  .print-only { display: none; }
+  .print-group { margin-top: 16px; padding-top: 14px; border-top: 1px solid #e0e0e0; }
+  .print-group .add-row { margin-top: 0; margin-bottom: 10px; }
+  .print-group .add-row .field { font-size: 14px; }
+  .print-group .add-row .x { margin-top: 30px; }
+  .print-group .print-btn { margin-top: 10px; }
+  .print-group .print-lead { margin-top: 8px; font-size: 12px; }
+  .print-group .add-btn { height: 32px; font-size: 13px; }
+  .link-btn {
+    height: 40px; padding: 0 8px; border: 0; background: transparent;
+    color: var(--info); font-size: 14px; text-decoration: underline; text-underline-offset: 3px;
+  }
+  .link-btn:hover { color: var(--navy); }
+  .result-empty {
+    padding: 18px;
+    border: 1px dashed #cdcdcd;
+    border-radius: 12px;
+    color: var(--info);
+    font-size: 15px;
+  }
+  .copy { margin-top: 8px; }
+  .calc-layout { display: grid; gap: 20px; }
+  .panel {
+    position: relative;
+    align-self: start;
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .card .panel-title { margin: 0 0 12px; font-size: 16px; font-weight: 600; }
+  .panel .sub { color: var(--info); font-size: 14px; margin-bottom: 4px; }
+  .panel .num { font-size: 32px; font-weight: 700; line-height: 1.1; }
+  .panel .num.alt { font-size: 22px; }
+  .num.muted { color: var(--muted); }
+  .panel-hint { margin: 10px 0 0; color: var(--info); font-size: 14px; }
+  .num-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .bar-track {
+    display: flex;
+    gap: 2px;
+    height: 12px;
+    margin-top: 18px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .bar-track span { min-width: 0; transition: flex-grow .25s ease; }
+  .seg-in { background: var(--navy); }
+  .seg-out { background: #cdcdcd; }
+  .seg-add { background: var(--cta); min-width: 6px !important; }
+  .legend {
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 13px;
+    color: var(--info);
+  }
+  .legend li { display: flex; align-items: center; gap: 8px; }
+  .legend li[hidden] { display: none; }
+  .legend li > span { flex: 1; display: flex; gap: 8px; }
+  .legend b { margin-left: auto; color: var(--text); font-weight: 600; white-space: nowrap; }
+  .dot { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+  .dot.in { background: var(--navy); }
+  .dot.out { background: #cdcdcd; }
+  .dot.add { background: var(--cta); }
+  .total { margin-top: 16px; padding-top: 14px; border-top: 1px solid #e0e0e0; }
+  .print-btn { margin-top: 16px; }
+  .details { margin-top: 20px; }
+  .details .meta-line { margin-top: 0; }
+  @media (min-width: 1280px) {
+    .calc-layout { grid-template-columns: minmax(0, 1fr) 320px; gap: 28px; align-items: start; }
+    .panel { position: sticky; top: 188px; }
+    .print-btn { width: 100%; }
+  }
+  .float-sum {
+    position: fixed;
+    left: 12px; right: 12px; bottom: 12px;
+    z-index: 70;
+    height: 48px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 25px;
+    background: var(--navy);
+    color: #fff;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    box-shadow: 0 6px 20px rgba(38,45,74,.25);
+  }
+  .float-sum[hidden] { display: none; }
+  @media (min-width: 768px) { .float-sum { display: none !important; } }
   .sum-box {
     background: var(--bg);
     border-radius: 12px;
@@ -561,7 +667,7 @@
   .m1 { top: 18px; right: 64px; }
   .m2 { top: 10px; right: 10px; }
   .m3 { top: 8px; right: 8px; }
-  .m4 { top: 16px; right: 12px; }
+  .m4 { top: -12px; right: -12px; }
   .m5 { top: 16px; right: 12px; }
   .m6 { top: 16px; right: 12px; }
   .m7 { top: 16px; right: 12px; }
@@ -610,9 +716,10 @@
     .site-header { top: 48px; }
   }
   @media (max-width: 767.98px) {
-    .site-header { top: 0; position: sticky; }
-    .preview-bar { position: sticky; }
+    .preview-bar { height: 48px; min-height: 48px; padding-top: 0; padding-bottom: 0; }
+    .site-header { top: 48px; }
     .anchors { top: 112px; border-radius: 0; }
+    #calc > .title-row { flex-direction: column; align-items: flex-start; gap: 8px; }
     .card { border-radius: 12px; }
     .header-right .login-label { display: none; }
     .preview-bar .hint { display: none; }
@@ -625,12 +732,16 @@
     .num { font-size: 28px; }
   }
   @media print {
-    .preview-bar, .site-header, .sidebar, .anchors, .mark, .no-print, footer.site, .toolbar, .video-btn { display: none !important; }
+    .preview-bar, .site-header, .sidebar, .anchors, .mark, .no-print, footer.site, .toolbar, .video-btn, .float-sum { display: none !important; }
     body { background: #fff; }
+    .calc-form, #calc > .title-row, #calc > .req, #calc > hr.line { display: none !important; }
+    .calc-layout { display: block; }
+    .print-only { display: block; margin: 0 0 12px; }
+    #rows-wrap { display: block !important; }
+    .panel { position: static; }
     .shell { display: block; padding: 0; }
     .content { width: 100%; max-width: none; }
     .card { box-shadow: none; }
-    .result { display: block !important; }
   }
 </style>
 </head>
@@ -694,8 +805,8 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M6 6h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H10l-4 3v-3H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"/></svg>
           </button>
           <div class="note left" role="dialog">
-            <b>Опис більше не ховає калькулятор</b>
-            На живій сторінці пояснення сховане за кнопкою «Що є на цій сторінці?». Якщо її відкрити, це довгий текст з емодзі — і форма їде вниз. Бухгалтер заходить порахувати, тож інструмент має лишатись близько до верху. Зверху лишились три речення і три факти, які скануються очима: поріг 103%, межа прожиткового мінімуму, обнулення січня 2026. Повна методика не зникла — вона нижче, за якірним меню.
+            <b>Опис не відсуває розрахунок</b>
+            На сайті пояснення сховане за «Що є на цій сторінці?». Відкритий текст довгий, і форма їде вниз. Зверху лишив коротке речення і три факти, які читаються поглядом: поріг 103%, межа прожиткового мінімуму, січень 2026 як базовий для всіх. Користь: одразу видно, що рахує інструмент, і поля лишаються близько до верху. Повні правила не зникли — вони нижче, окремим блоком.
           </div>
         </div>
         <div class="title-row">
@@ -730,8 +841,8 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M6 6h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H10l-4 3v-3H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"/></svg>
           </button>
           <div class="note left" role="dialog">
-            <b>Якірне меню замість суцільного полотна</b>
-            Зараз після форми одразу заклик лишити коментар. Немає куди перейти: методика, приклад, відповіді і матеріали на сторінці не виділені. У Дебет-Кредит і Головбух розрахунок лишається зверху, а пояснення йдуть окремими блоками. Панель липне під шапкою, тож із FAQ чи коментарів можна повернутись до форми без довгого скролу.
+            <b>До розділу можна перейти, а не скролити</b>
+            Після форми на сайті одразу коментарі. Методику, відповіді й матеріали не виділено, тож до них і назад до полів веде лише довгий скрол. Додав меню розділів, яке липне під шапкою. Користь: із відповіді чи коментаря повертаєшся до калькулятора в один клік і не губиш місце в тексті.
           </div>
         </div>
         <a href="#calc" data-anchor="calc">Калькулятор</a>
@@ -747,26 +858,29 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M6 6h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H10l-4 3v-3H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"/></svg>
           </button>
           <div class="note left" role="dialog">
-            <b>Підказки біля полів і чесні кнопки</b>
-            Поля лишились ті самі і в тому самому порядку: два місяці, сума, неповний місяць. «Розрахувати» стоїть унизу як остання дія і є єдиною помаранчевою кнопкою. ПІБ і дату друку прибрано звідси: на суму вони не впливають, тож живуть у результаті. Іконка календаря відкриває місяць, а крапка в даті ставиться сама. Стрілки в числових полях прибрано.
+            <b>У типовому випадку — одне поле до суми</b>
+            Базовий місяць уже стоїть на січні 2026, бо він базовий для всіх, а місяць індексації — на поточному. Обидва можна змінити. Тож зазвичай досить ввести зарплату. Сума рахується одразу, поки вводиш, без натискання і без стрибка сторінкою. Помилку поле показує, коли з нього виходиш, і прибирає, щойно її виправили. Зарплату можна вводити з комою, тисячі розділяються пробілом. Неповний місяць читається реченням: «Відпрацьовано 15 з 22 днів», а не двома окремими полями з нормою попереду. Місяць можна гортати стрілками ↑ ↓. Кнопку «Розрахувати» прибрав: сума і так оновлюється сама, а зайва кнопка лише змушувала думати, чи треба її натискати. «Очистити» зробив тихим посиланням, щоб не стерти дані випадково. Користь: від відкриття сторінки до суми — кілька секунд.
           </div>
         </div>
         <div class="title-row">
           <h2>Введіть дані для розрахунку</h2>
-          <button class="text-btn" id="fill-full" type="button">Показати приклад</button>
+          <div class="title-actions">
+            <button class="text-btn" id="fill-full" type="button">Показати приклад</button>
+            <button class="link-btn" id="clear-btn" type="button">Очистити</button>
+          </div>
         </div>
-        <p class="req">* Обов’язково для заповнення</p>
         <hr class="line">
-        <form id="form" autocomplete="off">
+        <div class="calc-layout">
+        <form id="form" class="calc-form" autocomplete="off">
           <div class="grid-2">
             <label class="field">
-              <span class="label-row"><span>Базовий місяць *</span>
+              <span class="label-row"><span>Базовий місяць</span>
                 <button class="info" type="button" aria-label="Що таке базовий місяць">i
                   <span class="tip">Місяць підвищення посадового окладу. Для 2026 року січень є базовим для всіх працівників, навіть якщо оклад востаннє ріс раніше. Індекси споживчих цін беруться з місяця після базового.</span>
                 </button>
               </span>
               <span class="with-icon">
-                <input class="control" id="base" name="base" placeholder="мм.рррр" inputmode="numeric" maxlength="7" aria-describedby="err-base">
+                <input class="control" id="base" name="base" aria-label="Базовий місяць" value="01.2026" placeholder="мм.рррр" inputmode="numeric" maxlength="7" aria-describedby="err-base">
                 <span class="cal">
                   <input type="month" id="base-pick" tabindex="-1" aria-label="Обрати базовий місяць">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>
@@ -775,13 +889,13 @@
               <span class="err" id="err-base"></span>
             </label>
             <label class="field">
-              <span class="label-row"><span>Місяць індексації *</span>
+              <span class="label-row"><span>Місяць індексації</span>
                 <button class="info" type="button" aria-label="Що таке місяць індексації">i
                   <span class="tip">Місяць, за який нараховуєте індексацію. Має бути пізніше за базовий. У розрахунок входять індекси споживчих цін до цього місяця, не включно з ним.</span>
                 </button>
               </span>
               <span class="with-icon">
-                <input class="control" id="month" name="month" placeholder="мм.рррр" inputmode="numeric" maxlength="7" aria-describedby="err-month">
+                <input class="control" id="month" name="month" aria-label="Місяць індексації" placeholder="мм.рррр" inputmode="numeric" maxlength="7" aria-describedby="err-month">
                 <span class="cal">
                   <input type="month" id="month-pick" tabindex="-1" aria-label="Обрати місяць індексації">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>
@@ -791,89 +905,119 @@
             </label>
           </div>
           <label class="field stack">
-            <span class="label-row"><span>Сума нарахованої заробітної плати *</span>
+            <span class="label-row"><span>Сума нарахованої заробітної плати</span>
               <button class="info" type="button" aria-label="Яку суму вказувати">i
                 <span class="tip">Нарахована зарплата за місяць індексації, до утримань. Якщо вона вища за прожитковий мінімум для працездатних, індексується тільки частина в межах цього мінімуму.</span>
               </button>
             </span>
             <span class="money">
-              <input class="control" id="salary" name="salary" type="number" min="0" step="0.01" aria-describedby="err-salary">
+              <input class="control" id="salary" name="salary" aria-label="Сума нарахованої заробітної плати" inputmode="decimal" placeholder="Наприклад, 8 000,00" aria-describedby="err-salary">
               <span class="suffix">грн</span>
             </span>
             <span class="err" id="err-salary"></span>
           </label>
 
-          <div style="margin-top:18px">
-            <label class="check">
-              <input type="checkbox" id="partial">
-              <span class="box"></span>
-              <span>Неповний місяць
-                <button class="info" type="button" aria-label="Неповний місяць">i
-                  <span class="tip">Якщо місяць відпрацьовано не повністю, сума множиться на частку: фактично відпрацьовані дні або години поділити на норму цього місяця.</span>
-                </button>
-              </span>
-            </label>
+          <div class="field-group stack">
+            <span class="label-row"><span id="mode-label">Місяць індексації відпрацьовано</span>
+              <button class="info" type="button" aria-label="Неповний місяць">i
+                <span class="tip">Якщо місяць відпрацьовано не повністю, сума множиться на частку: фактично відпрацьовані дні або години поділити на норму цього місяця.</span>
+              </button>
+            </span>
+            <div class="unit seg" role="radiogroup" aria-labelledby="mode-label">
+              <button type="button" role="radio" id="mode-full" class="on" aria-checked="true">Повністю</button>
+              <button type="button" role="radio" id="mode-partial" aria-checked="false">Частково</button>
+            </div>
           </div>
           <div class="partial" id="partial-fields">
-            <div class="unit" role="group" aria-label="Одиниця неповного місяця">
-              <button type="button" id="unit-days" class="on">В днях</button>
-              <button type="button" id="unit-hours">В годинах</button>
+            <div class="worked-row">
+              <span>Відпрацьовано</span>
+              <input class="control" id="worked" inputmode="decimal" placeholder="15" aria-label="Фактично відпрацьовано" aria-describedby="err-partial">
+              <span>з</span>
+              <input class="control" id="norm" inputmode="decimal" placeholder="22" aria-label="Норма в місяці індексації" aria-describedby="err-partial">
+              <div class="unit" role="radiogroup" aria-label="Одиниця">
+                <button type="button" role="radio" id="unit-days" class="on" aria-checked="true">днів</button>
+                <button type="button" role="radio" id="unit-hours" aria-checked="false">годин</button>
+              </div>
             </div>
-            <div class="grid-2">
-              <label class="field"><span id="norm-label">Норма днів у місяці індексації *</span>
-                <input class="control" id="norm" type="number" min="0" step="0.01" aria-describedby="err-norm">
-                <span class="err" id="err-norm"></span>
-              </label>
-              <label class="field"><span id="worked-label">Фактично відпрацьовано днів *</span>
-                <input class="control" id="worked" type="number" min="0" step="0.01" aria-describedby="err-worked">
-                <span class="err" id="err-worked"></span>
-              </label>
-            </div>
-          </div>
-
-          <div class="actions form-actions">
-            <button class="k-btn go" id="calc-btn" type="submit">Розрахувати</button>
-            <button class="k-btn out" id="clear-btn" type="button">Очистити</button>
+            <span class="err" id="err-partial"></span>
           </div>
         </form>
-      </section>
-
-      <section class="card result" id="result">
+        <aside class="panel" id="result" aria-label="Результат розрахунку">
         <div class="mark m4">
           <button class="pin" type="button" aria-expanded="false" aria-label="Аргумент: результат">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M6 6h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H10l-4 3v-3H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"/></svg>
           </button>
           <div class="note left" role="dialog">
-            <b>Спочатку сума, потім розбивка</b>
-            Поля ті самі, що на живому результаті: сума індексації, зарплата разом із нею, і по місяцях коефіцієнт, прожитковий мінімум, сума та зарплата з індексацією. Подачу повернув до попередньої: велика цифра, формула і рядок із введеними даними, без повторного блоку «Ваші дані». ПІБ і дата друку стоять тут, тим самим блоком, що був у формі: на розрахунок не впливають, на аркуш потрапляють у рядок над формулою. Коефіцієнт і сума стоять у місяці нарахування, у попередніх місяцях діапазону — прочерк. Кнопка ховає саме розбивку по місяцях, тому так і підписана. Коефіцієнт 3,90 і прожитковий мінімум 3&nbsp;328 грн взяті з живого прикладу (серпень–грудень 2026, зарплата 8&nbsp;000). Для інших дат прев’ю лишає цю саму форму, бо довідника ІСЦ у макеті немає.
+            <b>Форма і відповідь — один інструмент</b>
+            Результат більше не окрема картка під формою, а панель поруч із полями. На широкому екрані вона липне збоку, на вужчому стоїть одразу під полями, на телефоні її дублює плашка із сумою внизу. Сума оновлюється, поки вводиш, тож видно, як кожне поле її змінює. Поки даних бракує, панель пише, чого саме. Під сумою — смужка, що показує, як вона складається: темна частина зарплати індексується, сіра — ні, помаранчева — сама індексація. Це відповідає на найчастіше питання «чому так мало?» без читання методики, тож окреме речення-пояснення і рядок із повтором введених даних прибрав: вони казали те саме вдруге. Рядок із даними лишився тільки на аркуші. ПІБ і дата друку стоять одразу над «Роздрукувати», бо потрібні саме в цей момент. Формулу і розбивку по місяцях зібрав в один згорнутий блок «Як пораховано»: це для перевірки, а не щоразу. Користь: відповідь видно одразу, зрозуміло, звідки вона, і нічого не повторюється.
           </div>
         </div>
-        <h2>Результат розрахунку</h2>
-        <div class="sum-box">
-          <div class="sum-figs">
-            <div>
-              <div class="sub">Сума індексації</div>
-              <div class="num" id="sum">0,00 грн</div>
-            </div>
-            <div>
-              <div class="sub">Зарплата разом з індексацією</div>
+        <div id="result-empty">
+          <div class="sub">Сума індексації</div>
+          <div class="num muted">—&nbsp;грн</div>
+          <p class="panel-hint" id="result-empty-text" aria-live="polite"></p>
+        </div>
+        <div id="result-body" hidden>
+          <p class="meta-line print-only" id="who-line"></p>
+          <div class="sub" id="sum-label">Сума індексації</div>
+          <div class="num-row">
+            <div class="num" id="sum" aria-live="polite">0,00 грн</div>          </div>
+          <div class="bar-track" aria-hidden="true">
+            <span class="seg-in" id="bar-in"></span>
+            <span class="seg-out" id="bar-out"></span>
+            <span class="seg-add" id="bar-add"></span>
+          </div>
+          <ul class="legend">
+            <li><i class="dot in"></i><span id="lg-in"></span></li>
+            <li id="lg-out-row"><i class="dot out"></i><span id="lg-out"></span></li>
+            <li><i class="dot add"></i><span id="lg-add"></span></li>
+          </ul>
+          <div class="total">
+            <div class="sub">Зарплата разом з індексацією</div>
+            <div class="num-row">
               <div class="num alt" id="sum-total">0,00 грн</div>
             </div>
           </div>
-          <div class="actions no-print">
-            <button class="k-btn" id="print" type="button">Роздрукувати</button>
+          <div class="print-group no-print">
+            <div class="add-row" id="name-row">
+              <label class="field">ПІБ співробітника
+                <input class="control" id="name" placeholder="Прізвище Ім’я По батькові" autocomplete="off">
+              </label>
+              <button class="x" id="remove-name" type="button" aria-label="Прибрати ПІБ">×</button>
+            </div>
+            <div class="add-row" id="date-row">
+              <label class="field">Дата друку
+                <span class="with-icon">
+                  <input class="control" id="docdate" placeholder="дд.мм.рррр" inputmode="numeric" maxlength="10" autocomplete="off">
+                  <span class="cal">
+                    <input type="date" id="docdate-pick" tabindex="-1" aria-label="Обрати дату друку">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>
+                  </span>
+                </span>
+              </label>
+              <button class="x" id="remove-date" type="button" aria-label="Прибрати дату">×</button>
+            </div>
+            <div class="extra-actions">
+              <button class="add-btn" id="add-name" type="button">+ ПІБ</button>
+              <button class="add-btn" id="add-date" type="button">+ Дата друку</button>
+            </div>
+            <button class="k-btn print-btn" id="print" type="button">Роздрукувати</button>
+            <p class="print-lead">ПІБ і дата — лише для аркуша, нікуди не зберігаються.</p>
           </div>
         </div>
-        <p class="meta-line" id="who-line"></p>
-        <div class="formula" id="formula"></div>
+        </aside>
+        </div>
+
+        <div class="details" id="result-details" hidden>
         <div class="split-head">
-          <h3>Розбивка по місяцях</h3>
-          <button class="hide-rows no-print" id="toggle-rows" type="button" aria-controls="rows-wrap" aria-expanded="true">
-            <span id="toggle-rows-label">Сховати розбивку по місяцях</span>
+          <h3>Як пораховано</h3>
+          <button class="hide-rows no-print" id="toggle-rows" type="button" aria-controls="rows-wrap" aria-expanded="false">
+            <span id="toggle-rows-label">Показати</span>
             <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
           </button>
         </div>
-        <div id="rows-wrap">
+        <div id="rows-wrap" hidden>
+          <div class="formula" id="formula"></div>
           <div style="overflow-x:auto">
             <table class="sheet">
               <thead>
@@ -889,30 +1033,6 @@
             </table>
           </div>
         </div>
-        <div class="extras no-print">
-          <div class="extra-actions">
-            <button class="add-btn" id="add-name" type="button">+ ПІБ співробітника</button>
-            <button class="add-btn" id="add-date" type="button">+ Дата друку</button>
-          </div>
-          <div class="add-row" id="name-row">
-            <label class="field">ПІБ співробітника
-              <input class="control" id="name" placeholder="Прізвище Ім’я По батькові" autocomplete="off">
-            </label>
-            <button class="x" id="remove-name" type="button" aria-label="Прибрати ПІБ">×</button>
-          </div>
-          <div class="add-row" id="date-row">
-            <label class="field">Дата друку
-              <span class="with-icon">
-                <input class="control" id="docdate" placeholder="дд.мм.рррр" inputmode="numeric" maxlength="10" autocomplete="off">
-                <span class="cal">
-                  <input type="date" id="docdate-pick" tabindex="-1" aria-label="Обрати дату друку">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>
-                </span>
-              </span>
-            </label>
-            <button class="x" id="remove-date" type="button" aria-label="Прибрати дату">×</button>
-          </div>
-          <p class="print-lead">Для роздруківки, не для розрахунку. ПІБ нікуди не відправляється і не зберігається.</p>
         </div>
       </section>
 
@@ -922,8 +1042,8 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M6 6h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H10l-4 3v-3H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"/></svg>
           </button>
           <div class="note left" role="dialog">
-            <b>Методика окремо від форми</b>
-            Правила порога, межі ПМ і обнулення 2025/2026 зараз злиті в один абзац і сховані. Тут вони розкладені на кроки, формулу і посилання на акти — таблиця і список читаються швидше за суцільний текст, а калькулятор при цьому не відсувається вниз.
+            <b>Правила читаються кроками</b>
+            Поріг, межа прожиткового мінімуму й обнулення на сайті злиті в один абзац і сховані. Розклав це на кроки, формулу і посилання на акти. Користь: логіку суми можна звірити за хвилину, а форма через цей текст не їде вниз.
           </div>
         </div>
         <h2>Як рахуємо</h2>
@@ -951,8 +1071,8 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M6 6h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H10l-4 3v-3H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"/></svg>
           </button>
           <div class="note left" role="dialog">
-            <b>Відповіді не роздувають сторінку</b>
-            Питання про поріг, межу ПМ, обнулення і неповний місяць уже є в закритому тексті, але їх не знайти, не відкривши все полотно. Акордеон лишає на екрані лише питання. Відкривається одне за раз — так простіше порівняти відповідь із формою вище.
+            <b>Одне питання, одна відповідь</b>
+            Ці питання вже є в закритому тексті сайту, але щоб знайти одне, треба відкрити все полотно. Зібрав їх в акордеон: на екрані лишається запитання, відкривається одна відповідь. Користь: не губишся в тексті і можеш звірити відповідь із формою вище.
           </div>
         </div>
         <h2>Часті питання</h2>
@@ -971,11 +1091,11 @@
           </details>
           <details>
             <summary>Як рахувати неповний місяць?</summary>
-            <p>Повну суму індексації множать на частку: фактично відпрацьовано поділити на норму місяця. Увімкніть чекбокс у формі і оберіть «В днях» або «В годинах».</p>
+            <p>Повну суму індексації множать на частку: фактично відпрацьовано поділити на норму місяця. У формі оберіть «Частково» і вкажіть, скільки відпрацьовано і яка норма — у днях або годинах.</p>
           </details>
           <details>
             <summary>Де взяти результат для друку?</summary>
-            <p>Після розрахунку кнопка «Роздрукувати» стоїть біля суми. ПІБ і дату друку можна додати внизу результату — вони не обов’язкові, у розрахунок не входять, нікуди не відправляються і не зберігаються. На аркуші вони з’являться в рядку над формулою.</p>
+            <p>Кнопка «Роздрукувати» стоїть під сумою. Над нею можна додати ПІБ і дату друку — вони не обов’язкові, у розрахунок не входять, нікуди не відправляються і не зберігаються. На аркуші вони з’являться в рядку над сумою разом із введеними даними.</p>
           </details>
         </div>
       </section>
@@ -986,8 +1106,8 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M6 6h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H10l-4 3v-3H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"/></svg>
           </button>
           <div class="note left" role="dialog">
-            <b>Куди йти після цифри</b>
-            Зараз сторінка закінчує розрахунок закликом написати відгук. Після суми бухгалтеру частіше потрібне роз’яснення: стаття, відео або вебінар. Картки ведуть у вже наявні розділи 7eminar і виглядають як решта білих блоків сайту, без окремого «журнального» стилю. Назви тут — теми добірки для макета, не опубліковані матеріали.
+            <b>Після суми є куди піти</b>
+            На сайті розрахунок закінчується закликом написати відгук. Після цифри частіше потрібне роз’яснення: стаття, відео або вебінар. Додав картки в розділи, які на 7eminar уже є. Користь: від суми є наступний крок, і він виглядає як решта сайту. Назви в макеті показують теми добірки.
           </div>
         </div>
         <h2>Корисні матеріали</h2>
@@ -1013,8 +1133,8 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M6 6h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H10l-4 3v-3H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"/></svg>
           </button>
           <div class="note left" role="dialog">
-            <b>Блок коментарів залишений як є</b>
-            ТЗ просить зберегти дизайн коментарів: біла картка, лічильник, поле, аватар з ініціалами, дата, «Вподобати» і «Відповісти», відповідь редакції з відступом. Окрему плашку з емодзі «поділіться враженнями» прибрано — вона розривала калькулятор і коментарі, а запрошення й так стоїть у формі відгуку. Надіслати коментар у прев’ю не можна: це макет, не прод.
+            <b>Коментарі лишились знайомими</b>
+            Блок лишив таким, яким його вже знають: лічильник, поле, ініціали, дата, «Вподобати» і «Відповісти», відповідь редакції з відступом. Окрему плашку «поділіться враженнями» між калькулятором і відгуками прибрав: вона перебивала розрахунок, а запросити написати і так може саме поле. Користь: нічого не треба вивчати заново, і відгук не стає на шляху до суми.
           </div>
         </div>
         <div class="comment-head">
@@ -1042,7 +1162,7 @@
           <div class="ava" style="background:#262d4a">7</div>
           <div>
             <div><span class="who">Редакція 7eminar</span><span class="when">17.11.2026</span></div>
-            <p>Дякуємо за відгук. Якщо будете рахувати неповний місяць — увімкніть відповідний чекбокс і вкажіть дні.</p>
+            <p>Дякуємо за відгук. Якщо будете рахувати неповний місяць — оберіть «Частково» і вкажіть дні.</p>
             <div class="c-actions"><button class="tbtn" type="button">♡ Вподобати</button><button class="tbtn" type="button">Відповісти</button></div>
           </div>
         </article>
@@ -1058,6 +1178,10 @@
     </main>
 
   </div>
+  <button class="float-sum" id="float-sum" type="button" hidden>
+    <span>Індексація: <b id="float-sum-value"></b></span>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+  </button>
   <footer class="site">Прев’ю сторінки «Калькулятор індексації зарплати» у стилі 7eminar.ua. Не є офіційним розрахунком.</footer>
 
 <script>
@@ -1066,14 +1190,17 @@
   var COEF = 3.9;
   var MONTHS = ["січень", "лютий", "березень", "квітень", "травень", "червень", "липень", "серпень", "вересень", "жовтень", "листопад", "грудень"];
 
+  function $(id) { return document.getElementById(id); }
+  function two(n) { return (n < 10 ? "0" : "") + n; }
   function money(n, withCurrency) {
-    var s = n.toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-    return withCurrency === false ? s : s + " грн";
+    var s = n.toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, "\u00a0");
+    return withCurrency === false ? s : s + "\u00a0грн";
   }
-  function monthName(abs) {
+  function plain(n) { return n.toFixed(2).replace(".", ","); }
+  function monthName(abs, lower) {
     var name = MONTHS[(abs - 1) % 12];
     var year = Math.floor((abs - 1) / 12);
-    return name.charAt(0).toUpperCase() + name.slice(1) + " " + year;
+    return (lower ? name : name.charAt(0).toUpperCase() + name.slice(1)) + " " + year;
   }
   function parseMonth(v) {
     var m = /^(\d{2})\.(\d{4})$/.exec((v || "").trim());
@@ -1083,45 +1210,172 @@
     if (month < 1 || month > 12 || year < 2000) return null;
     return year * 12 + month;
   }
+  function formatMonth(abs) {
+    return two((abs - 1) % 12 + 1) + "." + Math.floor((abs - 1) / 12);
+  }
+  function currentMonth() {
+    var d = new Date();
+    return two(d.getMonth() + 1) + "." + d.getFullYear();
+  }
+  function parseAmount(v) {
+    var s = (v || "").replace(/[\s\u00a0]/g, "").replace(",", ".");
+    if (!s) return null;
+    if (!/^\d+(\.\d{0,2})?$/.test(s)) return NaN;
+    return Number(s);
+  }
+  function formatAmount(n) {
+    var whole = Math.floor(n);
+    var cents = Math.round((n - whole) * 100);
+    var s = String(whole).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    return cents ? s + "," + two(cents) : s;
+  }
+  function cleanAmount(input) {
+    var next = input.value.replace(/[^\d\s.,]/g, "");
+    if (input.value !== next) input.value = next;
+  }
 
-  var form = document.getElementById("form");
-  var partial = document.getElementById("partial");
-  var partialFields = document.getElementById("partial-fields");
+  var form = $("form");
+  var baseEl = $("base");
+  var monthEl = $("month");
+  var salaryEl = $("salary");
+  var workedEl = $("worked");
+  var normEl = $("norm");
+  var partialFields = $("partial-fields");
+  var isPartial = false;
   var unitHours = false;
+  var lastData = null;
+  var touched = {};
+  var rowsOpen = false;
+
+  monthEl.value = monthEl.defaultValue = currentMonth();
+
+  var FIELDS = { base: [baseEl], month: [monthEl], salary: [salaryEl], partial: [workedEl, normEl] };
+  var MISSING = { base: "базовий місяць", month: "місяць індексації", salary: "нараховану зарплату", partial: "відпрацьований час і норму" };
+
+  function setRadio(onId, offId, on) {
+    $(onId).classList.toggle("on", on);
+    $(onId).setAttribute("aria-checked", on ? "true" : "false");
+    $(offId).classList.toggle("on", !on);
+    $(offId).setAttribute("aria-checked", on ? "false" : "true");
+  }
+  function setMode(partial) {
+    isPartial = partial;
+    setRadio("mode-partial", "mode-full", partial);
+    partialFields.classList.toggle("on", partial);
+    if (!partial) touched.partial = false;
+    update();
+  }
   function setUnit(hours) {
     unitHours = hours;
-    document.getElementById("unit-days").classList.toggle("on", !hours);
-    document.getElementById("unit-hours").classList.toggle("on", hours);
-    document.getElementById("norm-label").textContent = hours
-      ? "Норма годин у місяці індексації *"
-      : "Норма днів у місяці індексації *";
-    document.getElementById("worked-label").textContent = hours
-      ? "Фактично відпрацьовано годин *"
-      : "Фактично відпрацьовано днів *";
+    setRadio("unit-hours", "unit-days", hours);
+    update();
   }
-  partial.addEventListener("change", function () {
-    partialFields.classList.toggle("on", partial.checked);
+  $("mode-full").addEventListener("click", function () { setMode(false); });
+  $("mode-partial").addEventListener("click", function () {
+    setMode(true);
+    if (!workedEl.value) workedEl.focus();
   });
-  document.getElementById("unit-days").addEventListener("click", function () { setUnit(false); });
-  document.getElementById("unit-hours").addEventListener("click", function () { setUnit(true); });
+  $("unit-days").addEventListener("click", function () { setUnit(false); });
+  $("unit-hours").addEventListener("click", function () { setUnit(true); });
+
+  function validate() {
+    var errors = {};
+    var base = parseMonth(baseEl.value);
+    var month = parseMonth(monthEl.value);
+    if (!baseEl.value.trim()) errors.base = "Вкажіть базовий місяць";
+    else if (base == null) errors.base = "Формат мм.рррр, наприклад 01.2026";
+    if (!monthEl.value.trim()) errors.month = "Вкажіть місяць індексації";
+    else if (month == null) errors.month = "Формат мм.рррр, наприклад 12.2026";
+    else if (base != null && month <= base) errors.month = "Має бути пізніше за базовий місяць (" + baseEl.value.trim() + ")";
+
+    var salary = parseAmount(salaryEl.value);
+    if (salary == null) errors.salary = "Вкажіть нараховану зарплату";
+    else if (!(salary > 0)) errors.salary = "Вкажіть суму числом, наприклад 8 000,50";
+
+    var ratio = 1;
+    var worked = parseAmount(workedEl.value);
+    var norm = parseAmount(normEl.value);
+    if (isPartial) {
+      if (worked == null || norm == null) errors.partial = "Вкажіть, скільки відпрацьовано і яка норма";
+      else if (!(worked > 0) || !(norm > 0)) errors.partial = "Вкажіть числа, більші за нуль";
+      else if (worked > norm) errors.partial = "Відпрацьовано не може бути більше за норму";
+      else ratio = worked / norm;
+    }
+    var ok = !Object.keys(errors).length;
+    return {
+      errors: errors,
+      data: ok ? { base: base, month: month, salary: salary, ratio: ratio, worked: worked, norm: norm } : null
+    };
+  }
+
+  function showErrors(errors) {
+    Object.keys(FIELDS).forEach(function (key) {
+      var show = touched[key] || (key === "month" && touched.base);
+      var msg = show ? (errors[key] || "") : "";
+      $("err-" + key).textContent = msg;
+      FIELDS[key].forEach(function (el) { el.setAttribute("aria-invalid", msg ? "true" : "false"); });
+    });
+  }
+
+  function update() {
+    var r = validate();
+    showErrors(r.errors);
+    if (r.data) render(r.data); else showEmpty(r.errors);
+    return r;
+  }
+
   function maskMonth(input) {
     var digits = input.value.replace(/\D/g, "").slice(0, 6);
     var next = digits.length > 2 ? digits.slice(0, 2) + "." + digits.slice(2) : digits;
     if (input.value !== next) input.value = next;
   }
-  function bindMonth(textId, pickId) {
-    var text = document.getElementById(textId);
-    var pick = document.getElementById(pickId);
-    text.addEventListener("input", function () { maskMonth(text); });
+  function bindMonth(text, pickId, key) {
+    var pick = $(pickId);
+    function syncPick() {
+      var abs = parseMonth(text.value);
+      pick.value = abs ? Math.floor((abs - 1) / 12) + "-" + two((abs - 1) % 12 + 1) : "";
+    }
+    text.addEventListener("input", function () { maskMonth(text); syncPick(); update(); });
+    text.addEventListener("blur", function () { touched[key] = true; update(); });
+    text.addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowUp" && e.key !== "ArrowDown") return;
+      e.preventDefault();
+      var abs = parseMonth(text.value) || parseMonth(currentMonth());
+      text.value = formatMonth(abs + (e.key === "ArrowUp" ? 1 : -1));
+      syncPick();
+      update();
+    });
+    pick.addEventListener("click", function () {
+      try { pick.showPicker(); } catch (err) {}
+    });
     pick.addEventListener("change", function () {
       if (!pick.value) return;
       var parts = pick.value.split("-");
       text.value = parts[1] + "." + parts[0];
+      touched[key] = true;
+      update();
     });
+    syncPick();
   }
-  bindMonth("base", "base-pick");
-  bindMonth("month", "month-pick");
-  function two(n) { return (n < 10 ? "0" : "") + n; }
+  bindMonth(baseEl, "base-pick", "base");
+  bindMonth(monthEl, "month-pick", "month");
+
+  salaryEl.addEventListener("input", function () { cleanAmount(salaryEl); update(); });
+  salaryEl.addEventListener("blur", function () {
+    touched.salary = true;
+    var n = parseAmount(salaryEl.value);
+    if (n > 0) salaryEl.value = formatAmount(n);
+    update();
+  });
+  [workedEl, normEl].forEach(function (el) {
+    el.addEventListener("input", function () { cleanAmount(el); update(); });
+  });
+  partialFields.addEventListener("focusout", function (e) {
+    if (e.relatedTarget && partialFields.contains(e.relatedTarget)) return;
+    touched.partial = true;
+    update();
+  });
+
   function todayUa() {
     var d = new Date();
     return two(d.getDate()) + "." + two(d.getMonth() + 1) + "." + d.getFullYear();
@@ -1134,13 +1388,16 @@
     if (input.value !== next) input.value = next;
   }
   function bindDate() {
-    var text = document.getElementById("docdate");
-    var pick = document.getElementById("docdate-pick");
+    var text = $("docdate");
+    var pick = $("docdate-pick");
     text.addEventListener("input", function () {
       maskDate(text);
       var match = text.value.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
       if (match) pick.value = match[3] + "-" + match[2] + "-" + match[1];
       if (lastData) writeMeta(lastData);
+    });
+    pick.addEventListener("click", function () {
+      try { pick.showPicker(); } catch (err) {}
     });
     pick.addEventListener("change", function () {
       if (!pick.value) return;
@@ -1161,76 +1418,40 @@
     });
   });
 
-  function clearErrors() {
-    ["err-base", "err-month", "err-salary", "err-worked", "err-norm"].forEach(function (id) {
-      document.getElementById(id).textContent = "";
-    });
-  }
-
-  function readForm() {
-    clearErrors();
-    var ok = true;
-    function readMonth(inputId, errId) {
-      var raw = document.getElementById(inputId).value.trim();
-      if (!raw) {
-        document.getElementById(errId).textContent = "Поле є обов'язковим";
-        return null;
-      }
-      var parsed = parseMonth(raw);
-      if (parsed == null) {
-        document.getElementById(errId).textContent = "Формат мм.рррр";
-        return null;
-      }
-      return parsed;
-    }
-    var base = readMonth("base", "err-base");
-    var month = readMonth("month", "err-month");
-    var salary = Number(document.getElementById("salary").value);
-    if (base == null || month == null) ok = false;
-    if (!document.getElementById("salary").value || !(salary > 0)) {
-      document.getElementById("err-salary").textContent = "Поле є обов'язковим";
-      ok = false;
-    }
-    if (base != null && month != null && month <= base) {
-      document.getElementById("err-month").textContent = "Має бути пізніше за базовий місяць";
-      ok = false;
-    }
-    var ratio = 1;
-    if (partial.checked) {
-      var worked = Number(document.getElementById("worked").value);
-      var norm = Number(document.getElementById("norm").value);
-      if (!(worked > 0)) { document.getElementById("err-worked").textContent = "Поле є обов'язковим"; ok = false; }
-      if (!(norm > 0)) { document.getElementById("err-norm").textContent = "Поле є обов'язковим"; ok = false; }
-      if (worked > 0 && norm > 0 && worked > norm) {
-        document.getElementById("err-worked").textContent = unitHours ? "Не більше за норму годин" : "Не більше за норму днів";
-        ok = false;
-      }
-      if (ok) ratio = worked / norm;
-    }
-    return ok ? { base: base, month: month, salary: salary, ratio: ratio } : null;
-  }
+  function unitWord() { return unitHours ? "годин" : "днів"; }
+  function num(n) { return String(n).replace(".", ","); }
 
   function writeMeta(data) {
     var bits = [];
-    var person = document.getElementById("name").value.trim();
-    var printed = document.getElementById("docdate").value.trim();
-    if (/^\d{4}-\d{2}-\d{2}$/.test(printed)) printed = printed.split("-").reverse().join(".");
+    var person = $("name").value.trim();
+    var printed = $("docdate").value.trim();
     if (person) bits.push(person);
     if (printed) bits.push("друк " + printed);
     bits.push("базовий " + monthName(data.base));
     bits.push("індексація " + monthName(data.month));
     bits.push(money(data.salary));
-    var workedText = document.getElementById("worked").value.replace(".", ",");
-    bits.push(partial.checked
-      ? "фактично відпрацьовано " + workedText + (unitHours ? " годин" : " днів")
+    bits.push(isPartial
+      ? "відпрацьовано " + num(data.worked) + " з " + num(data.norm) + " " + unitWord()
       : "повний місяць");
-    document.getElementById("who-line").textContent = bits.join(" · ");
+    $("who-line").textContent = bits.join(" · ");
+  }
+
+  function setRows(open) {
+    rowsOpen = open;
+    var btn = $("toggle-rows");
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+    $("rows-wrap").hidden = !open;
+    $("toggle-rows-label").textContent = open ? "Сховати" : "Показати";
   }
 
   function render(data) {
     lastData = data;
-    var indexed = Math.round(Math.min(data.salary, PM) * (COEF / 100) * data.ratio * 100) / 100;
+    var basis = Math.min(data.salary, PM);
+    var indexed = Math.round(basis * (COEF / 100) * data.ratio * 100) / 100;
     var withPay = Math.round((data.salary + indexed) * 100) / 100;
+    data.indexed = indexed;
+    data.withPay = withPay;
+
     var rows = "";
     for (var cursor = data.month; cursor >= data.base; cursor--) {
       var isPay = cursor === data.month;
@@ -1239,95 +1460,139 @@
         (isPay ? money(indexed, false) : "-") + "</td><td>" +
         money(isPay ? withPay : data.salary, false) + "</td></tr>";
     }
-    document.getElementById("rows").innerHTML = rows;
-    document.getElementById("sum").textContent = money(indexed);
-    document.getElementById("sum-total").textContent = money(withPay);
+    $("rows").innerHTML = rows;
+    $("sum").textContent = money(indexed);
+    $("sum-total").textContent = money(withPay);
+
+    $("sum-label").textContent = "Сума індексації за " + monthName(data.month, true);
+
+    var inPart = Math.round(basis * data.ratio * 100) / 100;
+    var outPart = Math.max(0, Math.round((data.salary - inPart) * 100) / 100);
+    $("bar-in").style.flex = inPart + " 1 0";
+    $("bar-out").style.flex = outPart + " 1 0";
+    $("bar-add").style.flex = indexed + " 1 0";
+    var inLabel = isPartial
+      ? "Індексується · " + num(data.worked) + " з " + num(data.norm) + " " + unitWord()
+      : data.salary > PM ? "Індексується, до ПМ" : "Індексується вся зарплата";
+    var outLabel = isPartial ? "Не індексується" : "Понад ПМ";
+    $("lg-in").innerHTML = inLabel + "<b>" + money(inPart) + "</b>";
+    $("lg-out").innerHTML = outLabel + "<b>" + money(outPart) + "</b>";
+    $("lg-out-row").hidden = outPart === 0;
+    $("lg-add").innerHTML = "Індексація " + plain(COEF) + "%<b>+" + money(indexed) + "</b>";
+
+    var formula = money(basis) + (data.salary > PM ? " (прожитковий мінімум)" : " (зарплата)") +
+      " × " + plain(COEF) + "% (коефіцієнт індексації)";
+    if (isPartial) formula += " × " + num(data.worked) + "/" + num(data.norm) + " (відпрацьована частка)";
+    $("formula").textContent = formula + " = " + money(indexed);
+
     writeMeta(data);
-    var formula = money(Math.min(data.salary, PM), false) + " × " + COEF.toFixed(2).replace(".", ",") + "%";
-    if (partial.checked) formula += " × " + document.getElementById("worked").value + "/" + document.getElementById("norm").value;
-    document.getElementById("formula").textContent = formula + " = " + money(indexed);
-    document.getElementById("rows-wrap").hidden = false;
-    document.getElementById("toggle-rows").dataset.open = "1";
-    document.getElementById("toggle-rows").setAttribute("aria-expanded", "true");
-    document.getElementById("toggle-rows-label").textContent = "Сховати розбивку по місяцях";
-    var box = document.getElementById("result");
-    box.classList.add("on");
-    box.scrollIntoView({ behavior: "smooth", block: "start" });
+    setRows(rowsOpen);
+    $("result-empty").hidden = true;
+    $("result-body").hidden = false;
+    $("result-details").hidden = false;
+    $("float-sum-value").textContent = money(indexed);
+    updateFloat();
+  }
+
+  function showEmpty(errors) {
+    lastData = null;
+    var need = Object.keys(errors).map(function (key) { return MISSING[key]; });
+    $("result-empty-text").textContent = "Вкажіть " + need.join(", ") + " — сума з’явиться тут одразу.";
+    $("result-empty").hidden = false;
+    $("result-body").hidden = true;
+    $("result-details").hidden = true;
+    updateFloat();
+  }
+
+  function scrollToResult() {
+    $("result").scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
-    var data = readForm();
-    if (data) render(data);
+    Object.keys(FIELDS).forEach(function (key) { touched[key] = true; });
+    var r = update();
+    if (r.data) { scrollToResult(); return; }
+    var firstKey = Object.keys(FIELDS).filter(function (key) { return r.errors[key]; })[0];
+    var target = FIELDS[firstKey].filter(function (el) { return el.getAttribute("aria-invalid") === "true"; })[0];
+    if (firstKey === "partial") target = workedEl.value ? normEl : workedEl;
+    if (target) target.focus();
   });
 
-  var lastData = null;
   function setExtra(rowId, btnId, open) {
-    document.getElementById(rowId).classList.toggle("on", open);
-    document.getElementById(btnId).hidden = open;
+    $(rowId).classList.toggle("on", open);
+    $(btnId).hidden = open;
   }
   function resetForm() {
     form.reset();
-    partialFields.classList.remove("on");
-    setUnit(false);
-    document.getElementById("name").value = "";
-    document.getElementById("docdate").value = "";
-    document.getElementById("docdate-pick").value = "";
+    touched = {};
+    $("name").value = "";
+    $("docdate").value = "";
+    $("docdate-pick").value = "";
     setExtra("name-row", "add-name", false);
     setExtra("date-row", "add-date", false);
-    lastData = null;
-    clearErrors();
-    document.getElementById("result").classList.remove("on");
-    document.getElementById("calc").scrollIntoView({ behavior: "smooth", block: "start" });
+    rowsOpen = false;
+    unitHours = false;
+    setRadio("unit-hours", "unit-days", false);
+    setMode(false);
+    $("calc").scrollIntoView({ behavior: "smooth", block: "start" });
   }
-  document.getElementById("clear-btn").addEventListener("click", resetForm);
-  document.getElementById("state-empty").addEventListener("click", resetForm);
+  $("clear-btn").addEventListener("click", resetForm);
+  $("state-empty").addEventListener("click", resetForm);
 
   function fill() {
-    document.getElementById("base").value = "08.2026";
-    document.getElementById("month").value = "12.2026";
-    document.getElementById("salary").value = "8000";
-    partial.checked = false;
-    partialFields.classList.remove("on");
-    setUnit(false);
-    document.getElementById("worked").value = "";
-    document.getElementById("norm").value = "";
-    var data = readForm();
-    if (data) render(data);
+    baseEl.value = "08.2026";
+    monthEl.value = "12.2026";
+    salaryEl.value = "8 000";
+    workedEl.value = "";
+    normEl.value = "";
+    touched = {};
+    setMode(false);
   }
-  document.getElementById("fill-full").addEventListener("click", fill);
-  document.getElementById("state-done").addEventListener("click", fill);
+  $("fill-full").addEventListener("click", fill);
+  $("state-done").addEventListener("click", function () { fill(); scrollToResult(); });
 
-  document.getElementById("add-name").addEventListener("click", function () { setExtra("name-row", "add-name", true); });
-  document.getElementById("remove-name").addEventListener("click", function () {
-    document.getElementById("name").value = "";
+  $("add-name").addEventListener("click", function () {
+    setExtra("name-row", "add-name", true);
+    $("name").focus();
+  });
+  $("remove-name").addEventListener("click", function () {
+    $("name").value = "";
     setExtra("name-row", "add-name", false);
     if (lastData) writeMeta(lastData);
   });
-  document.getElementById("add-date").addEventListener("click", function () {
-    var text = document.getElementById("docdate");
+  $("add-date").addEventListener("click", function () {
+    var text = $("docdate");
     if (!text.value) {
       text.value = todayUa();
-      document.getElementById("docdate-pick").value = text.value.split(".").reverse().join("-");
+      $("docdate-pick").value = text.value.split(".").reverse().join("-");
     }
     setExtra("date-row", "add-date", true);
     if (lastData) writeMeta(lastData);
   });
-  document.getElementById("remove-date").addEventListener("click", function () {
-    document.getElementById("docdate").value = "";
-    document.getElementById("docdate-pick").value = "";
+  $("remove-date").addEventListener("click", function () {
+    $("docdate").value = "";
+    $("docdate-pick").value = "";
     setExtra("date-row", "add-date", false);
     if (lastData) writeMeta(lastData);
   });
-  document.getElementById("name").addEventListener("input", function () { if (lastData) writeMeta(lastData); });
-  document.getElementById("toggle-rows").addEventListener("click", function () {
-    var open = this.dataset.open !== "0";
-    this.dataset.open = open ? "0" : "1";
-    this.setAttribute("aria-expanded", open ? "false" : "true");
-    document.getElementById("rows-wrap").hidden = open;
-    document.getElementById("toggle-rows-label").textContent = open ? "Показати розбивку по місяцях" : "Сховати розбивку по місяцях";
-  });
-  document.getElementById("print").addEventListener("click", function () { window.print(); });
+  $("name").addEventListener("input", function () { if (lastData) writeMeta(lastData); });
+  $("toggle-rows").addEventListener("click", function () { setRows(!rowsOpen); });
+  $("print").addEventListener("click", function () { window.print(); });
+
+  var floatBtn = $("float-sum");
+  var resultBelow = false;
+  function updateFloat() { floatBtn.hidden = !lastData || !resultBelow; }
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (entries) {
+      var entry = entries[0];
+      resultBelow = !entry.isIntersecting && entry.boundingClientRect.top > 0;
+      updateFloat();
+    }).observe($("result"));
+  }
+  floatBtn.addEventListener("click", scrollToResult);
+
+  update();
 
   var like = document.getElementById("like");
   like.addEventListener("click", function () {
@@ -1402,9 +1667,15 @@
     return document.getElementById(id);
   });
   function markAnchor() {
-    var y = window.scrollY + 160;
+    var navBottom = document.querySelector(".anchors").getBoundingClientRect().bottom;
+    var line = Math.max(navBottom + 16, 188);
     var current = sections[0].id;
-    sections.forEach(function (sec) { if (sec.offsetTop <= y) current = sec.id; });
+    sections.forEach(function (sec) {
+      if (sec.getBoundingClientRect().top <= line) current = sec.id;
+    });
+    if (window.scrollY > 0 && window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+      current = sections[sections.length - 1].id;
+    }
     links.forEach(function (a) { a.classList.toggle("active", a.getAttribute("data-anchor") === current); });
   }
   document.addEventListener("scroll", markAnchor, { passive: true });
