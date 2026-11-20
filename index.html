@@ -268,12 +268,32 @@
     outline: none;
   }
   .control:focus { border-color: var(--navy); }
+  input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   .with-icon { position: relative; }
   .with-icon .control { padding-right: 42px; }
   .cal {
     position: absolute; right: 8px; top: 4px;
-    width: 32px; height: 32px; border: 0; background: transparent; color: var(--info);
+    width: 32px; height: 32px;
+    display: grid; place-items: center;
+    color: var(--info); cursor: pointer;
   }
+  .cal input {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    opacity: 0; cursor: pointer; border: 0;
+  }
+  .cal svg { pointer-events: none; }
+  .money { position: relative; }
+  .money .control { padding-right: 52px; }
+  .money .suffix {
+    position: absolute; right: 16px; top: 0; height: 40px;
+    display: flex; align-items: center;
+    color: var(--info); font-size: 14px; font-weight: 400;
+    pointer-events: none;
+  }
+  .stack { margin-top: 16px; }
   .err { color: var(--danger); font-size: 13px; font-weight: 400; min-height: 0; }
   .err:empty { display: none; }
 
@@ -295,8 +315,14 @@
     border-left: 2px solid #fff; border-bottom: 2px solid #fff;
     transform: rotate(-45deg) translate(0, -1px);
   }
-  .partial { display: none; margin-top: 16px; }
-  .partial.on { display: block; }
+  .partial { display: none; margin-top: 12px; }
+  .partial.on {
+    display: block;
+    padding: 14px 14px 16px;
+    background: var(--bg);
+    border-radius: 12px;
+  }
+  .partial .unit button.on { background: #fff; border-color: var(--navy); }
   .unit { display: inline-flex; gap: 8px; margin-bottom: 16px; }
   .unit button {
     height: 36px;
@@ -316,6 +342,8 @@
     font-size: 14px;
   }
   .k-btn:hover { background: var(--cta); }
+  .k-btn.go { background: var(--cta); min-width: 148px; }
+  .k-btn.go:hover { background: var(--cta-hover); }
   .k-btn.out { background: transparent; color: var(--navy); border-color: var(--navy); }
   .k-btn.out:hover { background: transparent; border-color: var(--cta); color: var(--cta); }
   .k-btn:disabled { opacity: .45; cursor: default; }
@@ -327,6 +355,7 @@
     font-size: 12px; font-weight: 600; line-height: 1; padding: 0;
     position: relative;
   }
+  .info:hover, .info:focus, .info.open { z-index: 90; }
   .tip {
     display: none;
     position: absolute;
@@ -341,7 +370,7 @@
     line-height: 1.4;
     padding: 10px 12px;
     border-radius: 10px;
-    z-index: 5;
+    z-index: 90;
     text-align: left;
   }
   .info:hover .tip, .info:focus .tip, .info.open .tip { display: block; }
@@ -416,9 +445,10 @@
   .hide-rows:hover, .add-btn:hover { border-color: var(--navy); }
   .hide-rows .chev { flex: none; transition: transform .15s ease; }
   .hide-rows[aria-expanded="true"] .chev { transform: rotate(180deg); }
-  .extras { margin-top: 18px; }
+  .form-actions { margin-top: 20px; }
+  .extras { margin-top: 16px; }
   .extra-actions { display: flex; flex-wrap: wrap; gap: 8px; }
-  .print-lead { color: var(--info); margin: 0 0 8px; font-size: 14px; }
+  .print-lead { color: var(--info); margin: 10px 0 0; font-size: 14px; }
   .add-row { display: none; align-items: flex-start; gap: 8px; max-width: 520px; margin-top: 12px; }
   .add-row.on { display: flex; }
   .add-row .field { flex: 1; }
@@ -718,7 +748,7 @@
           </button>
           <div class="note left" role="dialog">
             <b>Підказки біля полів і чесні кнопки</b>
-            «Базовий місяць» на формі ніяк не розшифрований — визначення є лише в закритому тексті. Іконка «i» не зсуває сітку. Чекбокс неповного місяця раніше нічого не питав. Тепер після нього можна рахувати в днях або в годинах, як на живому калькуляторі, і в результаті видно, скільки фактично відпрацьовано. ПІБ і дата друку потрібні лише на аркуші, тому їх немає на формі, доки не натиснути «Додати». Так розрахунок лишається з трьох полів, а біля додавання написано, що ПІБ нікуди не відправляється і не зберігається. Окремої секції «Приклад» немає. У ТЗ вона стоїть у дужках як можливий пункт змісту, не як обов’язковий блок. Велика секція повторювала б калькулятор, тому кейс із сайту (серпень → грудень, 8 000 грн) відкриває маленька кнопка біля заголовка форми.
+            Поля лишились ті самі і в тому самому порядку: два місяці, сума, неповний місяць. «Розрахувати» стоїть унизу як остання дія і є єдиною помаранчевою кнопкою. ПІБ і дату друку прибрано звідси: на суму вони не впливають, тож живуть у результаті. Іконка календаря відкриває місяць, а крапка в даті ставиться сама. Стрілки в числових полях прибрано.
           </div>
         </div>
         <div class="title-row">
@@ -736,10 +766,11 @@
                 </button>
               </span>
               <span class="with-icon">
-                <input class="control" id="base" name="base" placeholder="мм.рррр" inputmode="numeric" aria-describedby="err-base">
-                <button class="cal" type="button" tabindex="-1" aria-hidden="true">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>
-                </button>
+                <input class="control" id="base" name="base" placeholder="мм.рррр" inputmode="numeric" maxlength="7" aria-describedby="err-base">
+                <span class="cal">
+                  <input type="month" id="base-pick" tabindex="-1" aria-label="Обрати базовий місяць">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>
+                </span>
               </span>
               <span class="err" id="err-base"></span>
             </label>
@@ -750,31 +781,33 @@
                 </button>
               </span>
               <span class="with-icon">
-                <input class="control" id="month" name="month" placeholder="мм.рррр" inputmode="numeric" aria-describedby="err-month">
-                <button class="cal" type="button" tabindex="-1" aria-hidden="true">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>
-                </button>
+                <input class="control" id="month" name="month" placeholder="мм.рррр" inputmode="numeric" maxlength="7" aria-describedby="err-month">
+                <span class="cal">
+                  <input type="month" id="month-pick" tabindex="-1" aria-label="Обрати місяць індексації">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>
+                </span>
               </span>
               <span class="err" id="err-month"></span>
             </label>
           </div>
-          <div class="grid-2" style="margin-top:16px">
-            <label class="field">
-              <span class="label-row"><span>Сума нарахованої заробітної плати&nbsp;*</span>
-                <button class="info" type="button" aria-label="Яку суму вказувати">i
-                  <span class="tip">Нарахована зарплата за місяць індексації, до утримань. Якщо вона вища за прожитковий мінімум для працездатних, індексується тільки частина в межах цього мінімуму.</span>
-                </button>
-              </span>
-              <input class="control" id="salary" name="salary" type="number" min="0" step="0.01" placeholder="0" aria-describedby="err-salary">
-              <span class="err" id="err-salary"></span>
-            </label>
-          </div>
+          <label class="field stack">
+            <span class="label-row"><span>Сума нарахованої заробітної плати *</span>
+              <button class="info" type="button" aria-label="Яку суму вказувати">i
+                <span class="tip">Нарахована зарплата за місяць індексації, до утримань. Якщо вона вища за прожитковий мінімум для працездатних, індексується тільки частина в межах цього мінімуму.</span>
+              </button>
+            </span>
+            <span class="money">
+              <input class="control" id="salary" name="salary" type="number" min="0" step="0.01" aria-describedby="err-salary">
+              <span class="suffix">грн</span>
+            </span>
+            <span class="err" id="err-salary"></span>
+          </label>
 
           <div style="margin-top:18px">
             <label class="check">
               <input type="checkbox" id="partial">
               <span class="box"></span>
-              <span>Розрахувати індексацію працівника за неповний місяць
+              <span>Неповний місяць
                 <button class="info" type="button" aria-label="Неповний місяць">i
                   <span class="tip">Якщо місяць відпрацьовано не повністю, сума множиться на частку: фактично відпрацьовані дні або години поділити на норму цього місяця.</span>
                 </button>
@@ -788,39 +821,18 @@
             </div>
             <div class="grid-2">
               <label class="field"><span id="norm-label">Норма днів у місяці індексації *</span>
-                <input class="control" id="norm" type="number" min="0" step="0.01" placeholder="0">
+                <input class="control" id="norm" type="number" min="0" step="0.01" aria-describedby="err-norm">
                 <span class="err" id="err-norm"></span>
               </label>
               <label class="field"><span id="worked-label">Фактично відпрацьовано днів *</span>
-                <input class="control" id="worked" type="number" min="0" step="0.01" placeholder="0">
+                <input class="control" id="worked" type="number" min="0" step="0.01" aria-describedby="err-worked">
                 <span class="err" id="err-worked"></span>
               </label>
             </div>
           </div>
 
-          <div class="extras">
-            <p class="print-lead">Для роздруківки, не для розрахунку. ПІБ нікуди не відправляється і не зберігається.</p>
-            <div class="extra-actions">
-              <button class="add-btn" id="add-name" type="button">+ ПІБ співробітника</button>
-              <button class="add-btn" id="add-date" type="button">+ Дата друку</button>
-            </div>
-            <div class="add-row" id="name-row">
-              <label class="field">ПІБ співробітника
-                <input class="control" id="name" placeholder="Прізвище Ім’я По батькові" autocomplete="off">
-              </label>
-              <button class="x" id="remove-name" type="button" aria-label="Прибрати ПІБ">×</button>
-            </div>
-            <div class="add-row" id="date-row">
-              <label class="field">Дата друку
-                <input class="control" id="docdate" type="date">
-              </label>
-              <button class="x" id="remove-date" type="button" aria-label="Прибрати дату">×</button>
-            </div>
-          </div>
-
-          <hr class="line">
-          <div class="actions">
-            <button class="k-btn" id="calc-btn" type="submit">Розрахувати</button>
+          <div class="actions form-actions">
+            <button class="k-btn go" id="calc-btn" type="submit">Розрахувати</button>
             <button class="k-btn out" id="clear-btn" type="button">Очистити</button>
           </div>
         </form>
@@ -833,7 +845,7 @@
           </button>
           <div class="note left" role="dialog">
             <b>Спочатку сума, потім розбивка</b>
-            Поля ті самі, що на живому результаті: сума індексації, зарплата разом із нею, і по місяцях коефіцієнт, прожитковий мінімум, сума та зарплата з індексацією. Подачу повернув до попередньої: велика цифра, формула і рядок із введеними даними, без повторного блоку «Ваші дані». Коефіцієнт і сума стоять у місяці нарахування, у попередніх місяцях діапазону — прочерк. Кнопка ховає саме розбивку по місяцях, тому так і підписана. Коефіцієнт 3,90 і прожитковий мінімум 3&nbsp;328 грн взяті з живого прикладу (серпень–грудень 2026, зарплата 8&nbsp;000). Для інших дат прев’ю лишає цю саму форму, бо довідника ІСЦ у макеті немає.
+            Поля ті самі, що на живому результаті: сума індексації, зарплата разом із нею, і по місяцях коефіцієнт, прожитковий мінімум, сума та зарплата з індексацією. Подачу повернув до попередньої: велика цифра, формула і рядок із введеними даними, без повторного блоку «Ваші дані». ПІБ і дата друку стоять тут, тим самим блоком, що був у формі: на розрахунок не впливають, на аркуш потрапляють у рядок над формулою. Коефіцієнт і сума стоять у місяці нарахування, у попередніх місяцях діапазону — прочерк. Кнопка ховає саме розбивку по місяцях, тому так і підписана. Коефіцієнт 3,90 і прожитковий мінімум 3&nbsp;328 грн взяті з живого прикладу (серпень–грудень 2026, зарплата 8&nbsp;000). Для інших дат прев’ю лишає цю саму форму, бо довідника ІСЦ у макеті немає.
           </div>
         </div>
         <h2>Результат розрахунку</h2>
@@ -876,6 +888,31 @@
               <tbody id="rows"></tbody>
             </table>
           </div>
+        </div>
+        <div class="extras no-print">
+          <div class="extra-actions">
+            <button class="add-btn" id="add-name" type="button">+ ПІБ співробітника</button>
+            <button class="add-btn" id="add-date" type="button">+ Дата друку</button>
+          </div>
+          <div class="add-row" id="name-row">
+            <label class="field">ПІБ співробітника
+              <input class="control" id="name" placeholder="Прізвище Ім’я По батькові" autocomplete="off">
+            </label>
+            <button class="x" id="remove-name" type="button" aria-label="Прибрати ПІБ">×</button>
+          </div>
+          <div class="add-row" id="date-row">
+            <label class="field">Дата друку
+              <span class="with-icon">
+                <input class="control" id="docdate" placeholder="дд.мм.рррр" inputmode="numeric" maxlength="10" autocomplete="off">
+                <span class="cal">
+                  <input type="date" id="docdate-pick" tabindex="-1" aria-label="Обрати дату друку">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>
+                </span>
+              </span>
+            </label>
+            <button class="x" id="remove-date" type="button" aria-label="Прибрати дату">×</button>
+          </div>
+          <p class="print-lead">Для роздруківки, не для розрахунку. ПІБ нікуди не відправляється і не зберігається.</p>
         </div>
       </section>
 
@@ -938,7 +975,7 @@
           </details>
           <details>
             <summary>Де взяти результат для друку?</summary>
-            <p>Після розрахунку кнопка «Роздрукувати» стоїть біля суми. ПІБ і дату друку можна додати у формі — вони не обов’язкові, у розрахунок не входять, нікуди не відправляються і не зберігаються. На аркуші вони з’являться в рядку над формулою.</p>
+            <p>Після розрахунку кнопка «Роздрукувати» стоїть біля суми. ПІБ і дату друку можна додати внизу результату — вони не обов’язкові, у розрахунок не входять, нікуди не відправляються і не зберігаються. На аркуші вони з’являться в рядку над формулою.</p>
           </details>
         </div>
       </section>
@@ -1067,6 +1104,52 @@
   });
   document.getElementById("unit-days").addEventListener("click", function () { setUnit(false); });
   document.getElementById("unit-hours").addEventListener("click", function () { setUnit(true); });
+  function maskMonth(input) {
+    var digits = input.value.replace(/\D/g, "").slice(0, 6);
+    var next = digits.length > 2 ? digits.slice(0, 2) + "." + digits.slice(2) : digits;
+    if (input.value !== next) input.value = next;
+  }
+  function bindMonth(textId, pickId) {
+    var text = document.getElementById(textId);
+    var pick = document.getElementById(pickId);
+    text.addEventListener("input", function () { maskMonth(text); });
+    pick.addEventListener("change", function () {
+      if (!pick.value) return;
+      var parts = pick.value.split("-");
+      text.value = parts[1] + "." + parts[0];
+    });
+  }
+  bindMonth("base", "base-pick");
+  bindMonth("month", "month-pick");
+  function two(n) { return (n < 10 ? "0" : "") + n; }
+  function todayUa() {
+    var d = new Date();
+    return two(d.getDate()) + "." + two(d.getMonth() + 1) + "." + d.getFullYear();
+  }
+  function maskDate(input) {
+    var digits = input.value.replace(/\D/g, "").slice(0, 8);
+    var next = digits;
+    if (digits.length > 4) next = digits.slice(0, 2) + "." + digits.slice(2, 4) + "." + digits.slice(4);
+    else if (digits.length > 2) next = digits.slice(0, 2) + "." + digits.slice(2);
+    if (input.value !== next) input.value = next;
+  }
+  function bindDate() {
+    var text = document.getElementById("docdate");
+    var pick = document.getElementById("docdate-pick");
+    text.addEventListener("input", function () {
+      maskDate(text);
+      var match = text.value.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+      if (match) pick.value = match[3] + "-" + match[2] + "-" + match[1];
+      if (lastData) writeMeta(lastData);
+    });
+    pick.addEventListener("change", function () {
+      if (!pick.value) return;
+      var parts = pick.value.split("-");
+      text.value = parts[2] + "." + parts[1] + "." + parts[0];
+      if (lastData) writeMeta(lastData);
+    });
+  }
+  bindDate();
 
   document.querySelectorAll(".info").forEach(function (btn) {
     btn.addEventListener("click", function (e) {
@@ -1087,11 +1170,23 @@
   function readForm() {
     clearErrors();
     var ok = true;
-    var base = parseMonth(document.getElementById("base").value);
-    var month = parseMonth(document.getElementById("month").value);
+    function readMonth(inputId, errId) {
+      var raw = document.getElementById(inputId).value.trim();
+      if (!raw) {
+        document.getElementById(errId).textContent = "Поле є обов'язковим";
+        return null;
+      }
+      var parsed = parseMonth(raw);
+      if (parsed == null) {
+        document.getElementById(errId).textContent = "Формат мм.рррр";
+        return null;
+      }
+      return parsed;
+    }
+    var base = readMonth("base", "err-base");
+    var month = readMonth("month", "err-month");
     var salary = Number(document.getElementById("salary").value);
-    if (base == null) { document.getElementById("err-base").textContent = "Поле є обов'язковим"; ok = false; }
-    if (month == null) { document.getElementById("err-month").textContent = "Поле є обов'язковим"; ok = false; }
+    if (base == null || month == null) ok = false;
     if (!document.getElementById("salary").value || !(salary > 0)) {
       document.getElementById("err-salary").textContent = "Поле є обов'язковим";
       ok = false;
@@ -1115,7 +1210,25 @@
     return ok ? { base: base, month: month, salary: salary, ratio: ratio } : null;
   }
 
+  function writeMeta(data) {
+    var bits = [];
+    var person = document.getElementById("name").value.trim();
+    var printed = document.getElementById("docdate").value.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(printed)) printed = printed.split("-").reverse().join(".");
+    if (person) bits.push(person);
+    if (printed) bits.push("друк " + printed);
+    bits.push("базовий " + monthName(data.base));
+    bits.push("індексація " + monthName(data.month));
+    bits.push(money(data.salary));
+    var workedText = document.getElementById("worked").value.replace(".", ",");
+    bits.push(partial.checked
+      ? "фактично відпрацьовано " + workedText + (unitHours ? " годин" : " днів")
+      : "повний місяць");
+    document.getElementById("who-line").textContent = bits.join(" · ");
+  }
+
   function render(data) {
+    lastData = data;
     var indexed = Math.round(Math.min(data.salary, PM) * (COEF / 100) * data.ratio * 100) / 100;
     var withPay = Math.round((data.salary + indexed) * 100) / 100;
     var rows = "";
@@ -1129,19 +1242,7 @@
     document.getElementById("rows").innerHTML = rows;
     document.getElementById("sum").textContent = money(indexed);
     document.getElementById("sum-total").textContent = money(withPay);
-    var bits = [];
-    var person = document.getElementById("name").value.trim();
-    var printed = document.getElementById("docdate").value;
-    if (person) bits.push(person);
-    if (printed) bits.push("друк " + printed.split("-").reverse().join("."));
-    bits.push("базовий " + monthName(data.base));
-    bits.push("індексація " + monthName(data.month));
-    bits.push(money(data.salary));
-    var workedText = document.getElementById("worked").value.replace(".", ",");
-    bits.push(partial.checked
-      ? "фактично відпрацьовано " + workedText + (unitHours ? " годин" : " днів")
-      : "повний місяць");
-    document.getElementById("who-line").textContent = bits.join(" · ");
+    writeMeta(data);
     var formula = money(Math.min(data.salary, PM), false) + " × " + COEF.toFixed(2).replace(".", ",") + "%";
     if (partial.checked) formula += " × " + document.getElementById("worked").value + "/" + document.getElementById("norm").value;
     document.getElementById("formula").textContent = formula + " = " + money(indexed);
@@ -1160,6 +1261,7 @@
     if (data) render(data);
   });
 
+  var lastData = null;
   function setExtra(rowId, btnId, open) {
     document.getElementById(rowId).classList.toggle("on", open);
     document.getElementById(btnId).hidden = open;
@@ -1168,8 +1270,12 @@
     form.reset();
     partialFields.classList.remove("on");
     setUnit(false);
+    document.getElementById("name").value = "";
+    document.getElementById("docdate").value = "";
+    document.getElementById("docdate-pick").value = "";
     setExtra("name-row", "add-name", false);
     setExtra("date-row", "add-date", false);
+    lastData = null;
     clearErrors();
     document.getElementById("result").classList.remove("on");
     document.getElementById("calc").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1196,15 +1302,24 @@
   document.getElementById("remove-name").addEventListener("click", function () {
     document.getElementById("name").value = "";
     setExtra("name-row", "add-name", false);
+    if (lastData) writeMeta(lastData);
   });
   document.getElementById("add-date").addEventListener("click", function () {
-    if (!document.getElementById("docdate").value) document.getElementById("docdate").value = "2026-11-20";
+    var text = document.getElementById("docdate");
+    if (!text.value) {
+      text.value = todayUa();
+      document.getElementById("docdate-pick").value = text.value.split(".").reverse().join("-");
+    }
     setExtra("date-row", "add-date", true);
+    if (lastData) writeMeta(lastData);
   });
   document.getElementById("remove-date").addEventListener("click", function () {
     document.getElementById("docdate").value = "";
+    document.getElementById("docdate-pick").value = "";
     setExtra("date-row", "add-date", false);
+    if (lastData) writeMeta(lastData);
   });
+  document.getElementById("name").addEventListener("input", function () { if (lastData) writeMeta(lastData); });
   document.getElementById("toggle-rows").addEventListener("click", function () {
     var open = this.dataset.open !== "0";
     this.dataset.open = open ? "0" : "1";
