@@ -1268,6 +1268,7 @@
   function setUnit(hours) {
     unitHours = hours;
     setRadio("unit-hours", "unit-days", hours);
+    if (!hours && (workedEl.value.trim() || normEl.value.trim())) touched.partial = true;
     update();
   }
   $("mode-full").addEventListener("click", function () { setMode(false); });
@@ -1298,6 +1299,7 @@
     if (isPartial) {
       if (worked == null || norm == null) errors.partial = "Вкажіть, скільки відпрацьовано і яка норма";
       else if (!(worked > 0) || !(norm > 0)) errors.partial = "Вкажіть числа, більші за нуль";
+      else if (!unitHours && (worked > 31 || norm > 31)) errors.partial = "Для днів максимум 31";
       else if (worked > norm) errors.partial = "Відпрацьовано не може бути більше за норму";
       else ratio = worked / norm;
     }
@@ -1496,8 +1498,12 @@
 
   function showEmpty(errors) {
     lastData = null;
+    var filledPartial = isPartial && workedEl.value.trim() && normEl.value.trim();
+    var onlyPartial = filledPartial && Object.keys(errors).length === 1 && errors.partial;
     var need = Object.keys(errors).map(function (key) { return MISSING[key]; });
-    $("result-empty-text").textContent = "Вкажіть " + need.join(", ") + " — сума з’явиться тут одразу.";
+    $("result-empty-text").textContent = onlyPartial
+      ? errors.partial + "."
+      : "Вкажіть " + need.join(", ") + " — сума з’явиться тут одразу.";
     $("result-empty").hidden = false;
     $("result-body").hidden = true;
     $("result-details").hidden = true;
