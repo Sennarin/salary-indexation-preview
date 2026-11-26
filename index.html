@@ -191,7 +191,7 @@
     font-size: 13px;
     color: var(--info);
   }
-  .title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .title-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .video-btn {
     flex: none;
     width: 44px; height: 44px;
@@ -315,19 +315,21 @@
     border-left: 2px solid #fff; border-bottom: 2px solid #fff;
     transform: rotate(-45deg) translate(0, -1px);
   }
-  .partial { display: none; margin-top: 12px; }
-  .partial.on {
+  .partial { display: none; margin-top: 14px; }
+  .partial.on { display: block; }
+  .partial .worked-label {
     display: block;
-    padding: 14px 14px 16px;
-    background: var(--bg);
-    border-radius: 12px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
   }
   .partial .unit button.on { background: #fff; border-color: var(--navy); }
   .unit { display: inline-flex; gap: 8px; margin-bottom: 16px; }
   .unit button {
     height: 36px;
     padding: 0 16px;
-    border-radius: 20px;
+    border-radius: 8px;
     border: 1px solid #cdcdcd;
     background: #fff;
     color: var(--navy);
@@ -382,12 +384,14 @@
   .seg button.on { background: var(--bg); border-color: var(--navy); }
   .worked-row { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
   .worked-row .control { width: 96px; padding: 0 12px; text-align: center; }
-  .worked-row .unit { margin-bottom: 0; }
+  .worked-row .unit { margin-bottom: 0; flex: none; }
+  .worked-sep { color: var(--info); font-weight: 400; }
   .partial .err { display: block; margin-top: 8px; }
   .partial .err:empty { display: none; }
   .partial .hint { margin-top: 10px; }
-  .title-actions { display: flex; align-items: center; gap: 4px; flex: none; }
+  .title-actions { display: flex; align-items: center; gap: 10px; flex: none; }
   .title-actions .link-btn { height: 32px; font-size: 13px; }
+  a.text-btn { display: inline-flex; align-items: center; text-decoration: none; }
   .print-only { display: none; }
   .print-group { margin-top: 16px; padding-top: 14px; border-top: 1px solid #e0e0e0; }
   .print-group .add-row { margin-top: 0; margin-bottom: 10px; }
@@ -395,7 +399,7 @@
   .print-group .add-row .x { margin-top: 30px; }
   .print-group .print-btn { margin-top: 10px; }
   .print-group .print-lead { margin-top: 8px; font-size: 12px; }
-  .print-group .add-btn { height: 32px; font-size: 13px; }
+  .print-group .extra-actions { margin-bottom: 4px; gap: 16px; }
   .link-btn {
     height: 40px; padding: 0 8px; border: 0; background: transparent;
     color: var(--info); font-size: 14px; text-decoration: underline; text-underline-offset: 3px;
@@ -509,14 +513,14 @@
   .text-btn {
     flex: none;
     height: 32px;
-    padding: 0 12px;
+    padding: 0 14px;
     border-radius: 25px;
-    border: 1px solid #cdcdcd;
-    background: #fff;
-    color: var(--info);
+    border: 0;
+    background: var(--bg);
+    color: var(--text);
     font-size: 13px;
   }
-  .text-btn:hover { border-color: var(--navy); color: var(--navy); }
+  .text-btn:hover { background: #eaeaea; color: var(--navy); }
   .kv { margin-top: 8px; }
   .kv div {
     display: flex;
@@ -538,7 +542,7 @@
     margin-top: 18px;
   }
   .split-head h3 { margin: 0; }
-  .hide-rows, .add-btn {
+  .hide-rows {
     height: 36px;
     padding: 0 14px;
     border-radius: 25px;
@@ -547,8 +551,18 @@
     color: var(--navy);
     font-size: 14px;
   }
+  .add-btn {
+    height: auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--cta);
+    font-size: 14px;
+    font-weight: 500;
+  }
   .hide-rows { display: inline-flex; align-items: center; gap: 8px; flex: none; }
-  .hide-rows:hover, .add-btn:hover { border-color: var(--navy); }
+  .hide-rows:hover { border-color: var(--navy); }
+  .add-btn:hover { color: var(--cta-hover); }
   .hide-rows .chev { flex: none; transition: transform .15s ease; }
   .hide-rows[aria-expanded="true"] .chev { transform: rotate(180deg); }
   .form-actions { margin-top: 20px; }
@@ -568,6 +582,22 @@
   .note-muted { color: var(--muted); font-size: 13px; margin: 10px 0 0; }
   .note-muted:empty { display: none; }
   .title-row h2 { margin: 0; }
+  .calc-head {
+    position: relative;
+    margin-top: 28px;
+    margin-bottom: 0;
+    padding-bottom: 24px;
+    align-items: center;
+    gap: 8px;
+  }
+  .calc-head h2 { flex: 1; min-width: 0; }
+  .calc-head .link-btn { flex: none; height: 32px; font-size: 13px; }
+  .calc-head .m3 {
+    position: relative;
+    top: auto;
+    right: auto;
+    flex: none;
+  }
   table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 8px; }
   th { text-align: left; font-weight: 500; color: var(--info); padding: 8px 6px; border-bottom: 1px solid var(--line); }
   td { padding: 10px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
@@ -633,6 +663,8 @@
 
   .mark { position: absolute; z-index: 6; }
   .mark:has(.note.open) { z-index: 90; }
+  .card:has(.note.open),
+  .anchors:has(.note.open) { z-index: 55; }
   .pin {
     width: 28px; height: 28px; border-radius: 50%;
     border: 2px solid #fff;
@@ -667,7 +699,7 @@
   .m1 { top: 18px; right: 64px; }
   .m2 { top: 10px; right: 10px; }
   .m3 { top: 8px; right: 8px; }
-  .m4 { top: -12px; right: -12px; }
+  .m4 { top: 8px; right: 8px; }
   .m5 { top: 16px; right: 12px; }
   .m6 { top: 16px; right: 12px; }
   .m7 { top: 16px; right: 12px; }
@@ -719,7 +751,7 @@
     .preview-bar { height: 48px; min-height: 48px; padding-top: 0; padding-bottom: 0; }
     .site-header { top: 48px; }
     .anchors { top: 112px; border-radius: 0; }
-    #calc > .title-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+    #calc > .calc-head { flex-direction: column; align-items: flex-start; gap: 8px; }
     .card { border-radius: 12px; }
     .header-right .login-label { display: none; }
     .preview-bar .hint { display: none; }
@@ -732,9 +764,9 @@
     .num { font-size: 28px; }
   }
   @media print {
-    .preview-bar, .site-header, .sidebar, .anchors, .mark, .no-print, footer.site, .toolbar, .video-btn, .float-sum { display: none !important; }
+    .preview-bar, .site-header, .sidebar, .anchors, .mark, .no-print, footer.site, .toolbar, .title-actions, .float-sum { display: none !important; }
     body { background: #fff; }
-    .calc-form, #calc > .title-row, #calc > .req, #calc > hr.line { display: none !important; }
+    .calc-form, #calc > .calc-head, #calc > .req, #calc > hr.line { display: none !important; }
     .calc-layout { display: block; }
     .print-only { display: block; margin: 0 0 12px; }
     #rows-wrap { display: block !important; }
@@ -799,42 +831,6 @@
         · <span>Калькулятор індексації зарплати</span>
       </nav>
 
-      <section class="card" id="intro">
-        <div class="mark m1">
-          <button class="pin" type="button" aria-expanded="false" aria-label="Аргумент: короткий опис">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M6 6h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H10l-4 3v-3H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"/></svg>
-          </button>
-          <div class="note left" role="dialog">
-            <b>Опис не відсуває розрахунок</b>
-            На сайті пояснення сховане за «Що є на цій сторінці?». Відкритий текст довгий, і форма їде вниз. Зверху лишив коротке речення і три факти, які читаються поглядом: поріг 103%, межа прожиткового мінімуму, січень 2026 як базовий для всіх. Користь: одразу видно, що рахує інструмент, і поля лишаються близько до верху. Повні правила не зникли — вони нижче, окремим блоком.
-          </div>
-        </div>
-        <div class="title-row">
-          <h1>Калькулятор індексації зарплати</h1>
-          <button class="video-btn" type="button" aria-label="Відеоінструкція" title="Відеоінструкція">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l12-7z"/></svg>
-          </button>
-        </div>
-        <p class="lead">Порахує суму індексації зарплати в межах прожиткового мінімуму для працездатних осіб. Для бухгалтера, кадровика і ФОП: вкажіть базовий місяць, місяць виплати і нараховану суму.</p>
-        <div class="chips">
-          <span class="chip">Поріг індексації — 103%</span>
-          <span class="chip">Індексується лише частина в межах ПМ</span>
-          <span class="chip">Січень 2026 — базовий місяць для всіх</span>
-        </div>
-        <div class="toolbar">
-          <div class="toolbar-meta">
-            <span class="react" title="Реакції"><span class="heart">♥</span> 74</span>
-            <span title="Перегляди">👁 140894</span>
-          </div>
-          <div class="toolbar-actions">
-            <button class="tbtn" id="like" type="button">♡ Вподобати</button>
-            <a class="tbtn" href="#comments">💬 1437</a>
-            <button class="tbtn" id="share" type="button">↗ 21</button>
-            <button class="tbtn" id="fav" type="button">☆ 125</button>
-          </div>
-        </div>
-      </section>
-
       <nav class="anchors" aria-label="Розділи сторінки">
         <div class="mark m2">
           <button class="pin" type="button" aria-expanded="false" aria-label="Аргумент: якірне меню">
@@ -853,23 +849,50 @@
       </nav>
 
       <section class="card" id="calc">
-        <div class="mark m3">
-          <button class="pin" type="button" aria-expanded="false" aria-label="Аргумент: підказки і кнопки">
+        <div class="mark m1">
+          <button class="pin" type="button" aria-expanded="false" aria-label="Аргумент: короткий опис">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M6 6h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H10l-4 3v-3H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"/></svg>
           </button>
           <div class="note left" role="dialog">
-            <b>У типовому випадку — одне поле до суми</b>
-            Базовий місяць уже стоїть на січні 2026, бо він базовий для всіх, а місяць індексації — на поточному. Обидва можна змінити. Тож зазвичай досить ввести зарплату. Сума рахується одразу, поки вводиш, без натискання і без стрибка сторінкою. Помилку поле показує, коли з нього виходиш, і прибирає, щойно її виправили. Зарплату можна вводити з комою, тисячі розділяються пробілом. Неповний місяць читається реченням: «Відпрацьовано 15 з 22 днів», а не двома окремими полями з нормою попереду. Місяць можна гортати стрілками ↑ ↓. Кнопку «Розрахувати» прибрав: сума і так оновлюється сама, а зайва кнопка лише змушувала думати, чи треба її натискати. «Очистити» зробив тихим посиланням, щоб не стерти дані випадково. Користь: від відкриття сторінки до суми — кілька секунд.
+            <b>Опис не відсуває розрахунок</b>
+            На сайті пояснення сховане за «Що є на цій сторінці?». Відкритий текст довгий, і форма їде вниз. Зверху лишив коротке речення і три факти, які читаються поглядом: поріг 103%, межа прожиткового мінімуму, січень 2026 як базовий для всіх. Користь: одразу видно, що рахує інструмент, і поля лишаються близько до верху. Повні правила не зникли — вони нижче, окремим блоком.
           </div>
         </div>
         <div class="title-row">
-          <h2>Введіть дані для розрахунку</h2>
+          <h1>Калькулятор індексації зарплати</h1>
           <div class="title-actions">
-            <button class="text-btn" id="fill-full" type="button">Показати приклад</button>
-            <button class="link-btn" id="clear-btn" type="button">Очистити</button>
+            <a class="text-btn" href="#method">Як це працює?</a>
+            <button class="video-btn" type="button" aria-label="Відеоінструкція" title="Відеоінструкція">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l12-7z"/></svg>
+            </button>
           </div>
         </div>
-        <hr class="line">
+        <div class="toolbar">
+          <div class="toolbar-meta">
+            <span class="react" title="Реакції"><span class="heart">♥</span> 74</span>
+            <span title="Перегляди">👁 140894</span>
+          </div>
+          <div class="toolbar-actions">
+            <button class="tbtn" id="like" type="button">♡ Вподобати</button>
+            <a class="tbtn" href="#comments">💬 1437</a>
+            <button class="tbtn" id="share" type="button">↗ 21</button>
+            <button class="tbtn" id="fav" type="button">☆ 125</button>
+          </div>
+        </div>
+
+        <div class="title-row calc-head">
+          <h2>Введіть дані для розрахунку</h2>
+          <div class="mark m3">
+            <button class="pin" type="button" aria-expanded="false" aria-label="Аргумент: підказки і кнопки">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M6 6h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H10l-4 3v-3H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"/></svg>
+            </button>
+            <div class="note left" role="dialog">
+              <b>У типовому випадку — одне поле до суми</b>
+              Базовий місяць уже стоїть на січні 2026, бо він базовий для всіх, а місяць індексації — на поточному. Обидва можна змінити. Тож зазвичай досить ввести зарплату. Сума рахується одразу, поки вводиш, без натискання і без стрибка сторінкою. Помилку поле показує, коли з нього виходиш, і прибирає, щойно її виправили. Зарплату можна вводити з комою, тисячі розділяються пробілом. Неповний місяць читається реченням: «Відпрацьовано 15 з 22 днів», а не двома окремими полями з нормою попереду. Місяць можна гортати стрілками ↑ ↓. Кнопку «Розрахувати» прибрав: сума і так оновлюється сама, а зайва кнопка лише змушувала думати, чи треба її натискати. «Очистити» зробив тихим посиланням, щоб не стерти дані випадково. Користь: від відкриття сторінки до суми — кілька секунд.
+            </div>
+          </div>
+          <button class="link-btn" id="clear-btn" type="button">Очистити</button>
+        </div>
         <div class="calc-layout">
         <form id="form" class="calc-form" autocomplete="off">
           <div class="grid-2">
@@ -929,15 +952,15 @@
             </div>
           </div>
           <div class="partial" id="partial-fields">
+            <span class="worked-label" id="worked-label">Відпрацьовано</span>
             <div class="worked-row">
-              <span>Відпрацьовано</span>
-              <input class="control" id="worked" inputmode="decimal" placeholder="15" aria-label="Фактично відпрацьовано" aria-describedby="err-partial">
-              <span>з</span>
-              <input class="control" id="norm" inputmode="decimal" placeholder="22" aria-label="Норма в місяці індексації" aria-describedby="err-partial">
-              <div class="unit" role="radiogroup" aria-label="Одиниця">
-                <button type="button" role="radio" id="unit-days" class="on" aria-checked="true">днів</button>
-                <button type="button" role="radio" id="unit-hours" aria-checked="false">годин</button>
+              <div class="unit" role="radiogroup" aria-labelledby="worked-label">
+                <button type="button" role="radio" id="unit-hours" aria-checked="false">Годин</button>
+                <button type="button" role="radio" id="unit-days" class="on" aria-checked="true">Днів</button>
               </div>
+              <input class="control" id="worked" inputmode="decimal" placeholder="15" aria-label="Фактично відпрацьовано" aria-describedby="err-partial">
+              <span class="worked-sep">з</span>
+              <input class="control" id="norm" inputmode="decimal" placeholder="22" aria-label="Норма в місяці індексації" aria-describedby="err-partial">
             </div>
             <span class="err" id="err-partial"></span>
           </div>
@@ -953,7 +976,7 @@
           </div>
         </div>
         <div id="result-empty">
-          <div class="sub">Сума індексації</div>
+          <div class="sub">Результат</div>
           <div class="num muted">—&nbsp;грн</div>
           <p class="panel-hint" id="result-empty-text" aria-live="polite"></p>
         </div>
@@ -998,11 +1021,10 @@
               <button class="x" id="remove-date" type="button" aria-label="Прибрати дату">×</button>
             </div>
             <div class="extra-actions">
-              <button class="add-btn" id="add-name" type="button">+ ПІБ</button>
               <button class="add-btn" id="add-date" type="button">+ Дата друку</button>
+              <button class="add-btn" id="add-name" type="button">+ ПІБ</button>
             </div>
             <button class="k-btn print-btn" id="print" type="button">Роздрукувати</button>
-            <p class="print-lead">ПІБ і дата — лише для аркуша, нікуди не зберігаються.</p>
           </div>
         </div>
         </aside>
@@ -1466,19 +1488,15 @@
     $("sum").textContent = money(indexed);
     $("sum-total").textContent = money(withPay);
 
-    $("sum-label").textContent = "Сума індексації за " + monthName(data.month, true);
+    $("sum-label").textContent = "Результат за " + monthName(data.month, true);
 
     var inPart = Math.round(basis * data.ratio * 100) / 100;
     var outPart = Math.max(0, Math.round((data.salary - inPart) * 100) / 100);
     $("bar-in").style.flex = inPart + " 1 0";
     $("bar-out").style.flex = outPart + " 1 0";
     $("bar-add").style.flex = indexed + " 1 0";
-    var inLabel = isPartial
-      ? "Індексується · " + num(data.worked) + " з " + num(data.norm) + " " + unitWord()
-      : data.salary > PM ? "Індексується, до ПМ" : "Індексується вся зарплата";
-    var outLabel = isPartial ? "Не індексується" : "Понад ПМ";
-    $("lg-in").innerHTML = inLabel + "<b>" + money(inPart) + "</b>";
-    $("lg-out").innerHTML = outLabel + "<b>" + money(outPart) + "</b>";
+    $("lg-in").innerHTML = "Зарплата в межах ПМ<b>" + money(inPart) + "</b>";
+    $("lg-out").innerHTML = "Зарплата понад ПМ<b>" + money(outPart) + "</b>";
     $("lg-out-row").hidden = outPart === 0;
     $("lg-add").innerHTML = "Індексація " + plain(COEF) + "%<b>+" + money(indexed) + "</b>";
 
@@ -1555,7 +1573,6 @@
     touched = {};
     setMode(false);
   }
-  $("fill-full").addEventListener("click", fill);
   $("state-done").addEventListener("click", function () { fill(); scrollToResult(); });
 
   $("add-name").addEventListener("click", function () {
